@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -6,10 +7,7 @@ const loadDbPermission = require('./middleware/loadUserPermissionMiddleware');
 const appRoutes = require('./routes/appRoutes');
 const db = require('./models');
 const helmet = require('helmet');
-
 const app = express();
-
-require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
 
