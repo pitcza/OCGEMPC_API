@@ -7,6 +7,138 @@ const {
   staff_logs
 } = require('../models');
 const dayjs = require('dayjs');
+const { Op, fn, col, literal } = require('sequelize');
+
+// Dashboard 
+const getTotalApplicationsThisMonth =  async (req, res) => {
+  try {
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+  const loanCount =  loan_applications.count({
+    where: {
+      createdAt: {
+        [Op.between]: [startOfMonth, endOfMonth]
+      }
+    }
+  });
+   res.status(200).json({ message: 'success', loanCount });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch total loan applications this month', error: err });
+  }
+};
+
+const getTotalLoanAmountThisMonth = async (req, res) => {
+  try {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+    const result = await loan_applications.findOne({
+      attributes: [[fn('SUM', col('applied_amount')), 'total']],
+      where: {
+        createdAt: {
+          [Op.between]: [startOfMonth, endOfMonth]
+        }
+      },
+      raw: true
+    });
+    const formattedResult = parseFloat(result.total) || 0;
+
+    res.status(200).json({message: 'success', formattedResult});
+  } catch (err) {
+    res.status(500).json({message: 'Failed to fetch total loan amount this month', error:err})
+  }
+}
+
+const getTotalActiveLoans = async (req, res) => {
+  try{
+    const totalActiveLoans = await loan_amortizations.count({
+       where: {
+        remaining_balance: {
+          [Op.ne]: 0
+        }
+      }
+    });
+
+    res.status(200).json({message: 'success', totalActiveLoans});
+  } catch (err) {
+    res.status(500).json({message: 'Failed to fetch total active loans', error:err})
+  }
+}
+
+const getTotalPaidLoans = async (req, res) => {
+  try {
+    const [results] = await sequelize.query(`
+    SELECT la.id
+    FROM loan_applications la
+    JOIN loan_amortizations lam ON lam.loan_id = la.id
+    GROUP BY la.id
+    HAVING SUM(lam.remaining_balance) = 0
+  `);
+
+  const totalPaidLoans = results.length;
+
+  res.status(200).json({ message: 'success', totalPaidLoans });
+  } catch (err) {
+   res.status(500).json({message: 'Failed to fetch total paid loans', error:err})
+  }
+}
+
+const getApplicationsbyMonth = async (req, res) => {
+  try {
+    const result = await loan_applications.findAll({
+    attributes: [
+      [fn('DATE_FORMAT', col('createdAt'), '%Y-%m'), 'month'],
+      [fn('COUNT', col('id')), 'count']
+    ],
+    where: {
+      createdAt: {
+        [Op.between]: [
+          new Date(year, 0, 1),
+          new Date(year, 11, 31, 23, 59, 59, 999)
+        ]
+      }
+    },
+    group: [literal('month')],
+    order: [[literal('month'), 'ASC']],
+    raw: true
+  });
+    res.status(200).json({ message: 'success', result });
+  } catch (err) {
+    res.status(500).json({message: 'Failed to fetch loan applications by month', error:err})
+  }
+};
+
+const getApplicationsPerStatus = async (req, res) => {
+  try {
+  const result = await loan_applications.findAll({
+      attributes: [
+        'loan_status',
+        [fn('COUNT', col('id')), 'count']
+      ],
+      group: ['loan_status'],
+      raw: true
+    });
+    res.status(200).json({ message: 'success', result });
+  } catch (err) {
+    res.status(500).json({message: 'Failed to fetch loan applications', error:err})
+  }
+};
+
+const getMostRecentPayments = async (req, res) => {
+  try {
+    const mostRecentPayments =  loan_amortizations.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: 10,
+      raw: true
+    });
+    res.status(200).json({message: 'success', mostRecentPayments});
+  } catch (err) {
+    res.status(500).json({message: 'Failed to fetch most recent payments', error: err});
+  }
+}
 
 // Utility function to calculate amortization schedule
 const generateAmortizationSchedule = ({ loanAmount, termMonths, interestRate }) => {
@@ -163,5 +295,9 @@ module.exports = {
   updateLoan,
   deleteLoan,
   approveLoan,
-  declineLoan
+  declineLoan,
+  getTotalApplicationsThisMonth, getTotalLoanAmountThisMonth,
+  getTotalActiveLoans, getTotalPaidLoans,
+  getApplicationsbyMonth, getApplicationsPerStatus,
+  getMostRecentPayments
 };

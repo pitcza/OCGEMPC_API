@@ -105,6 +105,15 @@ router.delete('/delete-loan/:id', loanController.deleteLoan);
 router.post('/approve-loan/:id', loanController.approveLoan);
 router.post('/decline-loan/:id', loanController.declineLoan);
 
+// Dashboard Routes 
+router.get('/total-monthly-applications', loanController.getApplicationsbyMonth);
+router.get('/total-loan-amount', loanController.getTotalLoanAmountThisMonth);
+router.get('/active-loans', loanController.getTotalActiveLoans);
+router.get('/paid-loans', loanController.getTotalPaidLoans);
+router.get('/loans-this-month', loanController.getTotalApplicationsThisMonth);
+router.get('/loans-per-status', loanController.getApplicationsPerStatus);
+router.get('/recent-payments', loanController.getMostRecentPayments);
+
 // Insurance Routes
 router.get('/insurances', insuranceController.getAllInsurances);
 router.get('/insurance/:id', insuranceController.getInsuranceById);
