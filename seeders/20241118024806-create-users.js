@@ -13,18 +13,18 @@ module.exports = {
       'users',
       [
         {
-          first_name: 'Sample',
-          last_name: 'Encoder',
-          username: 'encoder',
+          first_name: 'Super',
+          last_name: 'Admin',
+          username: 'superadmin',
           email: '202110888@gordoncollege.edu.ph',
           password: hashedEncoderPassword,
           "createdAt": new Date(),
           "updatedAt": new Date() 
         },
         {
-          first_name: 'Sample',
-          last_name: 'Treasurer',
-          username: 'treasurer',
+          first_name: 'Loan',
+          last_name: 'Officer',
+          username: 'loanofficer',
           email: '202110211@gordoncollege.edu.ph',
           password: hashedTreasurerPassword,
           "createdAt": new Date(),
@@ -32,8 +32,8 @@ module.exports = {
         },
         {
           first_name: 'Sample',
-          last_name: 'Client',
-          username: 'client',
+          last_name: 'Accountant',
+          username: 'accountant',
           email: '202011123@gordoncollege.edu.ph',
           password: hashedManagerPassword,
           "createdAt": new Date(),

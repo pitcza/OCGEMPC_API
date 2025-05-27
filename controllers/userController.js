@@ -298,10 +298,10 @@ const addUser = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   
   try {
-    const user = await users.findOne({ where: { username } ,
+    const user = await users.findOne({ where: { email } ,
       include: [
         {
           model: roles,
@@ -316,22 +316,22 @@ const login = async (req, res) => {
     
     });
     if (!user) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }   
 
     const accessToken = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '2h' });
     const refreshToken = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '7d' });
     // const roleName = user.roles.some(role => role.role_name === 'Admin') ? 'Admin' : 'Client';
-    const roleName = user.roles.some(role => role.role_name === 'Manager')
-    ? 'Manager'
-    : user.roles.some(role => role.role_name === 'Treasurer')
-    ? 'Treasurer'
-    : 'Encoder';
+    const roleName = user.roles.some(role => role.role_name === 'Superadmin')
+    ? 'Superadmin'
+    : user.roles.some(role => role.role_name === 'Accountant')
+    ? 'Accountant'
+    : 'Loan Officer';
 
   
     setTokens(res, accessToken, refreshToken);
