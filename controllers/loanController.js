@@ -81,8 +81,8 @@ const getTotalPaidLoans = async (req, res) => {
   const totalPaidLoans = results.length;
 
   res.status(200).json({ message: 'success', totalPaidLoans });
-  } catch (err) {
-   res.status(500).json({message: 'Failed to fetch total paid loans', error:err})
+  } catch (error) {
+   res.status(500).json({message: 'Failed to fetch total paid loans', error})
   }
 }
 
@@ -106,8 +106,8 @@ const getApplicationsbyMonth = async (req, res) => {
     raw: true
   });
     res.status(200).json({ message: 'success', result });
-  } catch (err) {
-    res.status(500).json({message: 'Failed to fetch loan applications by month', error:err})
+  } catch (error) {
+    res.status(500).json({message: 'Failed to fetch loan applications by month', error})
   }
 };
 
