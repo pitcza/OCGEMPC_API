@@ -56,6 +56,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM('pending', 'approved', 'declined'),
         allowNull: false,
         defaultValue: 'pending'  
+    },
+    supporting_documents: {
+      type: DataTypes.JSON,
+      allowNull: false
     }
 
   }, {

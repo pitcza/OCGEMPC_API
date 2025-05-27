@@ -43,6 +43,10 @@ module.exports = {
           allowNull: false,
           defaultValue: 'pending'  
       },
+      supporting_documents: {
+      type: Sequelize.JSON,
+      allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

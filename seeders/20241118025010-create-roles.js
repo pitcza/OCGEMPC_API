@@ -12,17 +12,23 @@ module.exports = {
           "createdAt": new Date(),
           "updatedAt": new Date()
         },
-        
+
         {
           role_name: 'Loan Officer',
-          role_description: 'Has minimal access to the system such as encoding and viewing loans, makers, etc.',
+          role_description: 'Oversees loan applications, management of makers and data encoding.',
           "createdAt": new Date(),
           "updatedAt": new Date()
          },
   
        {
         role_name: 'Accountant',
-        role_description: 'Can approve, decline loans and update loan details.',
+        role_description: 'Reviews loans for approval.',
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+       },
+        {
+        role_name: 'Manager',
+        role_description: 'Reviews loans for approval.',
         "createdAt": new Date(),
         "updatedAt": new Date()
        },
