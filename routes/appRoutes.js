@@ -90,7 +90,11 @@ router.delete('/delete-log/:id', staffLogController.deleteStaffLog);
 router.post('/mass-delete-logs/', staffLogController.massDeleteLogs);
 
 // Maker Routes
-
+router.get('/makers', makerController.getAllMakers);
+router.get('/maker/:id', makerController.getMakerById);
+router.post('/create-maker', makerController.createMaker);
+router.put('/update-maker/:id', makerController.updateMaker);
+router.delete('/delete-maker', makerController.deleteMaker);
 
 // Loan Routes
 router.get('/loans', loanController.getAllLoans);
