@@ -66,9 +66,9 @@ app.get('/', function (req, res) {
                 <h1>Development Server is Running 🚀</h1>
                 <p>Welcome to the backend of your awesome project!</p>
                 <p>Stay productive and build something amazing. 💻✨</p>
-                <p>You can login to the web application through <a href="https://cadstream.ebjv.e-fab.com.au/">here</a></p>
+                <p>You can login to the web application through <a href="https://ocgempc.vercel.app/login">here</a></p>
                 <footer>
-                    <p>&copy; 2018 EBJV. Powered by <a href="https://nodejs.org" target="_blank">Node.js</a>.</p>
+                    <p>&copy; 2025 OCGEMPC. Powered by <a href="https://nodejs.org" target="_blank">Node.js</a>.</p>
                 </footer>
             </body>
             </html>
