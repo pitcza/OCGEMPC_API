@@ -328,10 +328,13 @@ const login = async (req, res) => {
     const refreshToken = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '7d' });
     // const roleName = user.roles.some(role => role.role_name === 'Admin') ? 'Admin' : 'Client';
     const roleName = user.roles.some(role => role.role_name === 'Superadmin')
-    ? 'Superadmin'
-    : user.roles.some(role => role.role_name === 'Accountant')
-    ? 'Accountant'
-    : 'Loan Officer';
+      ? 'Superadmin'
+      : user.roles.some(role => role.role_name === 'Accountant')
+      ? 'Accountant'
+      : user.roles.some(role => role.role_name === 'Manager')
+      ? 'Manager'
+      : 'Loan Officer';
+
 
   
     setTokens(res, accessToken, refreshToken);
