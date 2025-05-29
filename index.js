@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'production';
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -16,7 +17,10 @@ app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(bodyParser.json());
 app.use(loadDbPermission);
-app.use(cors());
+app.use(cors({
+  origin: 'https://ocgempc-git-donotpull-czarina-jane-arellanos-projects.vercel.app',
+  credentials: true
+}));
 
 app.use('/api', appRoutes);
 
@@ -77,3 +81,7 @@ app.get('/', function (req, res) {
 });
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/config/config.js')[env];
+

@@ -18,25 +18,27 @@ const insuranceController = require('../controllers/insuranceController');
 const {ifcUpload, imageUpload} = require('../utils/multerConfig');
 
 const authorize = require('../middleware/authorizationMiddleware');
-router.use(authorize);
 const permit = require('../middleware/permissionMiddleware');
+
+router.post('/login', userController.login);
+router.post('/logout', userController.logout);
+router.post('/refresh', userController.refresh);
+router.post('/reset-password', userController.resetPassword);
+router.post(
+  '/confirm-reset-password',
+  userController.confirmResetPassword
+);
+
+router.use(authorize);
 
 // CRUD Routes for User
 router.get('/users', userController.getUsers);
 router.get('/user/:id', userController.getUserById);
 router.get('/user', userController.getCurrentUser);
 router.post('/addUser', userController.addUser);
-router.post('/login', userController.login);
-router.post('/logout', userController.logout);
-router.post('/refresh', userController.refresh);
 router.put('/update-user/:id', userController.updateUser);
 router.delete('/delete-user/:id', userController.deleteUser);
 router.put('/update-profile', userController.updateProfile);
-router.post('/reset-password', userController.resetPassword);
-router.post(
-  '/confirm-reset-password',
-  userController.confirmResetPassword
-);
 
 // CRUD Routes for Role
 router.get('/roles', roleController.getRoles);
