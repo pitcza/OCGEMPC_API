@@ -83,5 +83,5 @@ app.get('/', function (req, res) {
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/config/config.js')[env];
+const config = require(__dirname + '/config/config.json')[env];
 
