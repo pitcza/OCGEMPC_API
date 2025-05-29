@@ -80,7 +80,7 @@ app.get('/', function (req, res) {
   res.send(htmlResponse);
 });
 
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Listening on port: ${PORT}`));
 
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/config/config.json')[env];
